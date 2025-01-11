@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::bytebuf::Uuid;
+use crate::types::Uuid;
 use wither_data::packet::serverbound::LOGIN_HELLO;
 use wither_macros::wither_packet;
 

@@ -3,6 +3,7 @@ use serde::de::{SeqAccess, Visitor};
 use uuid::Uuid as UuidInner;
 use std::fmt;
 
+#[derive(Debug)]
 pub struct Uuid(pub UuidInner);
 
 impl Serialize for Uuid {

@@ -4,18 +4,18 @@ use bytebuf::{deserializer, serializer, ReadingError};
 use bytes::{Buf, BufMut, Bytes};
 use codec::{identifier::Identifier, var_int::{VarInt, VarIntType}};
 use wither_util::text::{style::Style, TextComponent};
-use serde::{de::DeserializeOwned, Deserialize, Serialize, Serializer};
+use serde::{de::DeserializeOwned, Serialize, Serializer};
 
 pub mod bytebuf;
-#[cfg(feature = "clientbound")]
-pub mod client;
 pub mod codec;
 pub mod packet_decoder;
 pub mod packet_encoder;
 #[cfg(feature = "query")]
 pub mod query;
-#[cfg(feature = "serverbound")]
-pub mod server;
+
+pub mod protocol;
+
+pub mod types;
 
 /// To current Minecraft protocol
 /// Don't forget to change this when porting
@@ -167,16 +167,6 @@ pub struct Sample {
     pub name: String,
     /// Players UUID
     pub id: String,
-}
-
-// basically game profile
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct Property {
-    pub name: String,
-    // base 64
-    pub value: String,
-    // base 64
-    pub signature: Option<String>,
 }
 
 pub struct KnownPack<'a> {

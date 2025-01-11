@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = [ "wither-bot","wither-client", "wither-data", "wither-declare", "wither-macros", "wither-nbt", "wither-protocol", "wither-util", "wither-world"]
+members = [ "wither-bot","wither-client", "wither-data", "wither-declare", "wither-macros", "wither-nbt", "wither-network", "wither-util", "wither-world"]
 
 [workspace.dependencies]
 log = "0.4"

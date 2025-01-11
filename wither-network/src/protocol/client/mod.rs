@@ -1,5 +1,5 @@
-// Serverbound Packets
-// Client -> Server
+// Clientbound Packets
+// Server -> Client
 
 pub mod config;
 pub mod handshake;

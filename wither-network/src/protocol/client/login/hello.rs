@@ -2,10 +2,10 @@ use serde::{Deserialize, Serialize};
 use wither_data::packet::clientbound::LOGIN_HELLO;
 use wither_macros::wither_packet;
 
-use crate::bytebuf::Binary;
+use crate::types::Binary;
 
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[wither_packet(LOGIN_HELLO)]
 pub struct Hello {
     pub server_id: String, // 20

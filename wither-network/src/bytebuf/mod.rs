@@ -12,14 +12,7 @@ use bytes::{Buf, BufMut};
 pub mod serializer;
 pub mod deserializer;
 use thiserror::Error;
-
-mod uuid;
-pub use uuid::*;
-
-use ::uuid::Uuid as UUID;
-
-mod binary;
-pub use binary::*;
+use uuid::Uuid;
 
 use std::mem::size_of;
 
@@ -91,7 +84,7 @@ pub trait ByteBuf: Buf {
         val: impl Fn(&mut Self) -> Result<G, ReadingError>,
     ) -> Result<Vec<G>, ReadingError>;
 
-    fn try_get_uuid(&mut self) -> Result<UUID, ReadingError>;
+    fn try_get_uuid(&mut self) -> Result<Uuid, ReadingError>;
 
     fn try_get_fixed_bitset(&mut self, bits: usize) -> Result<FixedBitSet, ReadingError>;
 }
@@ -275,10 +268,10 @@ impl<T: Buf> ByteBuf for T {
         Ok(list)
     }
 
-    fn try_get_uuid(&mut self) -> Result<UUID, ReadingError> {
+    fn try_get_uuid(&mut self) -> Result<Uuid, ReadingError> {
         let mut bytes = [0u8; 16];
         self.try_copy_to_slice(&mut bytes)?;
-        Ok(UUID::from_slice(&bytes).expect("Failed to parse UUID"))
+        Ok(Uuid::from_slice(&bytes).expect("Failed to parse UUID"))
     }
 
     fn try_get_fixed_bitset(&mut self, bits: usize) -> Result<FixedBitSet, ReadingError> {
@@ -331,9 +324,9 @@ impl<T: BufMut> ByteBufMut for T {
         }
     }
 
-    fn put_uuid(&mut self, v: &uuid::Uuid) {
+    fn put_uuid(&mut self, v: &Uuid) {
         // thats the vanilla way
-        let pair = v.0.as_u64_pair();
+        let pair = v.as_u64_pair();
         self.put_u64(pair.0);
         self.put_u64(pair.1);
     }

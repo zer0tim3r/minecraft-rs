@@ -6,10 +6,25 @@ edition = "2021"
 [dependencies]
 wither-data = { path = "../wither-data" }
 wither-declare = { path = "../wither-declare" }
-wither-protocol = { path = "../wither-protocol" }
+wither-network = { path = "../wither-network" }
 
 log.workspace = true
 uuid.workspace = true
 bytes.workspace = true
 tokio.workspace = true
 thiserror.workspace = true
+
+dashmap = "6.1.0"
+
+# encryption
+rand = "0.8.5"
+rsa = "0.9.7"
+rsa-der = "0.3.0"
+
+# authentication
+reqwest = { version = "0.12.12", default-features = false, features = [
+    "http2",
+    "json",
+    "macos-system-configuration",
+    "rustls-tls",
+] }
