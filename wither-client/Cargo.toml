@@ -1,0 +1,15 @@
+[package]
+name = "wither-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wither-data = { path = "../wither-data" }
+wither-declare = { path = "../wither-declare" }
+wither-protocol = { path = "../wither-protocol" }
+
+log.workspace = true
+uuid.workspace = true
+bytes.workspace = true
+tokio.workspace = true
+thiserror.workspace = true

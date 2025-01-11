@@ -1,0 +1,32 @@
+[package]
+name = "wither-protocol"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["packets", "query"]
+packets = ["serverbound", "clientbound"]
+serverbound = []
+clientbound = []
+query = []
+
+[dependencies]
+wither-nbt = { path = "../wither-nbt" }
+wither-data = { path = "../wither-data" }
+wither-macros = { path = "../wither-macros" }
+wither-world = { path = "../wither-world" }
+wither-util = { path = "../wither-util" }
+
+uuid.workspace = true
+serde.workspace = true
+log.workspace = true
+tokio.workspace = true
+bytes.workspace = true
+thiserror.workspace = true
+
+# encryption
+aes = "0.8.4"
+cfb8 = "0.8.1"
+
+# decryption
+libdeflater = "1.23.0"

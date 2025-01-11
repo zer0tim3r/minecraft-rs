@@ -1,0 +1,10 @@
+[package]
+name = "wither-nbt"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+bytes.workspace = true
+cesu8 = "1.1.0"

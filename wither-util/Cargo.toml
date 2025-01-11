@@ -1,0 +1,15 @@
+[package]
+name = "wither-util"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wither-nbt = { path = "../wither-nbt" }
+serde.workspace = true
+bytes.workspace = true
+uuid.workspace = true
+
+num-traits = "0.2"
+
+colored = "2"
+md5 = "0.7.0"
