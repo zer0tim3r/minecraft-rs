@@ -10,7 +10,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // client.send_packet(&protocol::server::status::PingRequest::new(0)).await.unwrap();
     // client.send_packet(&protocol::server::status::PingRequest::new(512)).await.unwrap();
 
-    instance.client.get_notify("close").notified().await;
+    instance.raw_client.get_notify("close").notified().await;
 
     Ok(())
 }

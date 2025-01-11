@@ -16,7 +16,7 @@ use dashmap::DashMap;
 
 use wither_declare::*;
 use wither_network::{
-    protocol, packet_decoder::PacketDecoder, packet_encoder::PacketEncoder, ClientIntent,
+    packet_decoder::PacketDecoder, packet_encoder::PacketEncoder, protocol, ClientIntent,
     CompressionLevel, CompressionThreshold, ConnectionProtocol, Packet, PacketId, RawPacket,
 };
 
@@ -186,8 +186,22 @@ impl RawClient {
         let protocol = *self.protocol.read().await;
 
         match protocol {
-            ConnectionProtocol::HandShake => {}
-            ConnectionProtocol::Status => {}
+            ConnectionProtocol::HandShake => match packet.id.0 {
+                _ => {
+                    unimplemented!()
+                }
+            },
+            ConnectionProtocol::Status => match packet.id.0 {
+                protocol::client::status::StatusResponse::PACKET_ID => {
+                    todo!()
+                }
+                protocol::client::status::PongResponse::PACKET_ID => {
+                    todo!()
+                }
+                _ => {
+                    unimplemented!()
+                }
+            },
             ConnectionProtocol::Login => match packet.id.0 {
                 protocol::client::login::Hello::PACKET_ID => {
                     let packet = protocol::client::login::Hello::read(&mut packet.bytebuf)?;
@@ -251,7 +265,14 @@ impl RawClient {
 
                     // self.send_packet(protocol::client::)
                 }
-                _ => {}
+                protocol::client::login::LoginDisconnect::PACKET_ID => {
+                    let packet = protocol::client::login::LoginDisconnect::read(&mut packet.bytebuf)?;
+
+                    log::warn!("received disconnect packet! reason: {}", packet.reason);
+                }
+                _ => {
+                    unimplemented!()
+                }
             },
             _ => {}
         }
@@ -358,15 +379,15 @@ pub enum ClientError {
 }
 
 pub struct Client {
-    pub client: Arc<RawClient>,
+    pub raw_client: Arc<RawClient>,
 }
 
 impl Client {
     pub async fn new(host: &str, port: u16, username: &str) -> Result<Self, Box<dyn Error>> {
-        let client = Arc::new(RawClient::new(host, port).await?);
+        let raw_client = Arc::new(RawClient::new(host, port).await?);
 
         tokio::spawn({
-            let client = client.clone();
+            let client = raw_client.clone();
             async move {
                 loop {
                     tokio::select! {
@@ -380,9 +401,9 @@ impl Client {
             }
         });
 
-        client.set_protocol(ClientIntent::Login).await?;
-        client.attempt_login(username).await?;
+        raw_client.set_protocol(ClientIntent::Login).await?;
+        raw_client.attempt_login(username).await?;
 
-        Ok(Self { client })
+        Ok(Self { raw_client })
     }
 }
